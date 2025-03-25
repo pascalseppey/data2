@@ -3,6 +3,27 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from fake_useragent import UserAgent
 import zipfile, random, time, os, tempfile
+import os
+import signal
+import subprocess
+
+def kill_existing_chrome_sessions():
+    print("🧹 Nettoyage des anciennes sessions Chrome...")
+
+    try:
+        # Trouver les PID des anciens processus chrome/chromedriver
+        chrome_pids = subprocess.check_output("pgrep -f '(chrome|chromedriver)'", shell=True).decode().splitlines()
+
+        for pid in chrome_pids:
+            try:
+                os.kill(int(pid), signal.SIGKILL)
+                print(f"❌ Processus tué : PID {pid}")
+            except Exception as e:
+                print(f"⚠️ Erreur lors de la tentative de suppression du PID {pid} : {e}")
+    except subprocess.CalledProcessError:
+        print("✅ Aucun processus Chrome/Chromedriver actif à tuer.")
+
+kill_existing_chrome_sessions()
 
 CHROME_PATH = "/usr/bin/google-chrome"
 CHROMEDRIVER_PATH = "/usr/local/bin/chromedriver"
