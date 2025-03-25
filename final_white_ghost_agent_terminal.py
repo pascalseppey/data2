@@ -74,7 +74,7 @@ print("[INFO] Lancement boucle navigation...")
 
 iteration = 0
 while True:
-    iteration += 1
+    # [ ... autres paramètres ... ]
     options = Options()
     options.binary_location = CHROME_PATH
     options.add_argument("--no-sandbox")
@@ -83,8 +83,8 @@ while True:
     options.add_argument("--disable-web-security")
     options.add_argument("--disable-webrtc")
     options.add_argument("--start-maximized")
-    options.add_argument("--remote-debugging-port=0")
 
+    # 🔐 Résout le bug user-data-dir déjà utilisé
     user_data_dir = tempfile.mkdtemp()
     options.add_argument(f"--user-data-dir={user_data_dir}")
 
@@ -123,6 +123,7 @@ while True:
             pass
         try:
             os.remove(pluginfile)
+            os.rmdir(user_data_dir) 
         except:
             pass
         print("[⏳] Pause 2 minutes...\n")
