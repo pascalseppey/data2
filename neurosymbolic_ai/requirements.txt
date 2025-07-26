@@ -1,0 +1,7 @@
+torch>=1.12.0
+torch_geometric
+spacy>=3.7.0
+pandas
+networkx
+pylexique
+scikit-learn
